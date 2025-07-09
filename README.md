@@ -1,76 +1,122 @@
-# 🛒 Carrefouregypt Olive Oil Scraper
 
-<a target="_blank" href="https://cookiecutter-data-science.drivendata.org/">
-    <img src="https://img.shields.io/badge/CCDS-Project%20template-328F97?logo=cookiecutter" />
-</a>
 
-Extract all data about  https://www.carrefouregypt.com/mafegy/ar/c/FEGY1760404?currentPage=1
 
-This project is a simple web scraper built using **Selenium** and **Pandas**. It extracts information about **olive oil products** from [Carrefour Egypt](https://www.carrefouregypt.com/mafegy/ar/c/FEGY1760404), including:
+# 🛒 Carrefour Egypt Product Scraper
+
+This project scrapes product data from **Carrefour Egypt** using **Selenium**, then exports structured datasets for further analysis.
+
+It currently supports:
+
+* 🫒 Olive Oil (`Carfoor_oil.xlsx`)
+* 🍯 Honey (`Carfoor_Honey.xlsx`)
+* 🌴 Dates / Tamr (`Carfoor_tamr.xlsx`)
+* 🥒 Pickles (`Carfoor_pickles.xlsx`)
+
+---
+
+## 📂 Extracted Data Includes:
 
 * ✅ Product name
-* ✅ Price
+* ✅ Price (main value only)
 * ✅ Product link
 * ✅ Image URL
 
-The data is saved to an Excel file: `Carfoor_oil.xlsx`
+Each product category is stored in its own Excel file, and accompanied by an exploratory notebook for quick analysis.
 
 ---
 
-## 📂 Output Example
+## 🧪 Folder Structure
 
-| Product                      | Price | Link        | Image         |
-| ---------------------------- | ----- | ----------- | ------------- |
-| زيت زيتون بكر بورجيس - 500مل | 570   | [Link](...) | ![Image](...) |
-
----
-
-## 🛠 Requirements
-
-Make sure you have the following installed:
-
-* Python 3.7+
-* Firefox + geckodriver (or Chrome + chromedriver if you change the browser)
-* The following Python packages:
-
-```bash
-pip install selenium pandas openpyxl
+```
+web-scraping/
+├── oil_scraping/
+│   ├── Web_Scaping Code/
+│   │   └── python scraper_honey.py
+│   ├── notebooks/
+│   │   ├── Carfoor_Honey.xlsx
+│   │   ├── Carfoor_pickles.xlsx
+│   │   ├── Carfoor_tamr.xlsx
+│   │   ├── Honeycarrefouregypt.ipynb
+│   │   ├── Tamrcarrefouregypt.ipynb
+│   │   └── pickles.ipynb
+│   └── ...
 ```
 
 ---
 
 ## 🚀 How to Run
 
+Install dependencies:
+
 ```bash
-python scraper.py
+pip install selenium pandas openpyxl
 ```
 
-This will generate an Excel file named `Carfoor_oil.xlsx` in the same directory.
+Then run any scraper script. Example:
+
+```bash
+python "Web_Scaping Code/python scraper_honey.py"
+```
+
+An Excel file will be generated under `notebooks/`.
 
 ---
 
-## 📌 Notes
+## 💡 Example Code Snippet
 
-* The scraper uses **Firefox WebDriver** by default. You can switch to Chrome by editing the line:
+```python
+elements = driver.find_elements(By.CSS_SELECTOR, 'a[data-testid="product_name"]')
+for e in elements:
+    product.append(e.text.strip())
 
-  ```python
-  driver = webdriver.Chrome()
-  ```
-* Make sure your WebDriver (e.g., `geckodriver` for Firefox) is installed and added to your system PATH.
+major_prices = driver.find_elements(By.CSS_SELECTOR, 'div.css-14zpref')
+for p in major_prices:
+    price.append(p.text.strip())
+
+images = driver.find_elements(By.CSS_SELECTOR, 'img[data-testid="product_image_main"]')
+for i in images:
+    image.append(i.get_attribute("src"))
+```
 
 ---
 
-## 📈 Future Ideas
+## 🗃 Git Status & Notes
 
-* Support for multiple pages
-* Track price changes over time
-* Export to CSV or database
+To add your current untracked files to Git:
+
+```bash
+git add .
+git commit -m "Add honey scraper, Excel files, and notebooks"
+git push
+```
+
+Or to ignore generated Excel files:
+
+```bash
+# .gitignore
+*.xlsx
+```
+
+You may also want to rename the file `pickles .ipynb` (remove the space):
+
+```bash
+mv "pickles .ipynb" "pickles.ipynb"
+```
 
 ---
 
-## 🧑‍💻 Author
+## ✅ Future Plans
 
-Developed by \ omar ahmed badr
-Feel free to modify, extend, or share.
+* Auto-scroll or pagination support
+* Scheduled scraping (daily/weekly)
+* Historical price tracking
+* Export to CSV, database, or dashboard
+
+---
+
+## 👤 Author
+
+Developed by **omar ahmed badr**
+Feel free to contribute or suggest improvements.
 
 
